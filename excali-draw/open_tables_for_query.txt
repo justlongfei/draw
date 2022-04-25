@@ -1,0 +1,13 @@
+															  |-> table_cache_manager.get_cache()->get_table()
+															  |									
+															  |													   |-> table_def_cache->find -> process_found_table_share	
+open_tables_for_query -> open_and_precess_table -> open_table |-> get_table_share_with_discover -> get_table_share |-> open_table_def  |-> fill_share_from_dd
+															  | 													 				   |-> fill_columns_from_dd -> fill_column_from_dd -> make_field(将一个column变成一个field)
+															  |																		   |-> fill_indexes_from_dd
+															  |																		   |-> fill_partitioning_from_dd
+															  |																		   |-> fill_foreign_keys_from_dd
+															  |																		   |-> fill_check_constraints_from_dd
+															  |																		   |-> prepare_share
+															  |-> open_table_from_share（将fields从share克隆到table）-> ha_open -> ha_innobase::open（open一个InnoDB table）
+															  |-> tc->add_used_table (将table加入到table cache)
+															  |-> table_list->table = table;
